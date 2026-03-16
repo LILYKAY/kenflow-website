@@ -233,6 +233,11 @@
   .modal-tab.active { background: var(--ink); color: var(--white); }
   .modal-panel { display: none; }
   .modal-panel.active { display: block; }
+  .auth-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .auth-divider span { font-size: 0.75rem; color: var(--ink-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .btn--google { background: #fff; color: var(--ink); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; font-size: 0.88rem; font-weight: 500; padding: 0.85rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
+  .btn--google:hover { border-color: var(--gold); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 
   /* TOAST */
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 300; display: flex; flex-direction: column; gap: 0.8rem; }
@@ -337,6 +342,11 @@
         </div>
         <div class="form-group"><label>Password *</label><input type="password" id="su-password" placeholder="Minimum 8 characters"></div>
         <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleSignUp()" id="signupBtn">Create Account & Continue →</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="btn--google" onclick="handleGoogleAuth()">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 6.294C4.672 4.169 6.656 3.58 9 3.58z"/></svg>
+          Continue with Google
+        </button>
         <p style="font-size:0.75rem;color:var(--ink-muted);text-align:center;margin-top:0.8rem">By creating an account you consent to us contacting you for follow-up. Your details are handled with complete confidentiality.</p>
       </div>
       <div class="modal-panel" id="panel-login">
@@ -344,6 +354,11 @@
         <div class="form-group"><label>Password</label><input type="password" id="li-password" placeholder="Your password"></div>
         <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleLogin()" id="loginBtn">Sign In →</button>
         <div style="text-align:center;margin-top:1rem"><a href="#" style="font-size:0.82rem;color:var(--gold);text-decoration:none" onclick="handleForgotPassword()">Forgot password?</a></div>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="btn--google" onclick="handleGoogleAuth()">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 6.294C4.672 4.169 6.656 3.58 9 3.58z"/></svg>
+          Sign in with Google
+        </button>
       </div>
     </div>
   </div>
@@ -950,6 +965,14 @@
   const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
   document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
   window.addEventListener('scroll',()=>{document.querySelector('nav').style.boxShadow=window.scrollY>50?'0 4px 30px rgba(0,0,0,0.08)':'none';});
+
+  async function handleGoogleAuth() {
+    const { error } = await db.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
+    if (error) toast('Google sign-in failed. Please try again.', 'error');
+  }
 
   initAuth();
 </script>
