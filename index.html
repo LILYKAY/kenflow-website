@@ -234,64 +234,6 @@
   .modal-panel { display: none; }
   .modal-panel.active { display: block; }
 
-  /* OAUTH — Social login primary */
-  .social-login-section { padding: 0.5rem 0 0; }
-  .social-login-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--ink); text-align: center; margin-bottom: 0.4rem; }
-  .social-login-sub { font-size: 0.8rem; color: var(--ink-muted); text-align: center; margin-bottom: 1.5rem; }
-  .oauth-btns { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.2rem; }
-  .oauth-btn {
-    display: flex; align-items: center; justify-content: center; gap: 0.85rem;
-    width: 100%; padding: 0.92rem 1rem;
-    border: 1.5px solid var(--rule); background: var(--white);
-    font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
-    color: var(--ink); cursor: pointer; border-radius: 2px;
-    transition: all 0.22s; text-decoration: none; letter-spacing: 0.01em;
-  }
-  .oauth-btn:hover { border-color: var(--gold); background: var(--gold-pale); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184,151,90,0.15); }
-  .oauth-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
-  .oauth-btn--google:hover { border-color: #4285F4; background: #f0f4ff; }
-  .oauth-btn--github:hover { border-color: #333; background: #f6f8fa; }
-  .oauth-btn--facebook:hover { border-color: #1877F2; background: #f0f4ff; }
-  .oauth-divider { display: flex; align-items: center; gap: 1rem; margin: 1.2rem 0 1rem; }
-  .oauth-divider::before, .oauth-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
-  .oauth-divider span { font-size: 0.7rem; color: var(--ink-muted); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
-  .email-toggle { background: none; border: none; font-family: var(--font-body); font-size: 0.82rem; color: var(--ink-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; display: block; margin: 0 auto; padding: 0.3rem; transition: color 0.2s; }
-  .email-toggle:hover { color: var(--gold); }
-  .email-form-section { display: none; margin-top: 1rem; }
-  .email-form-section.open { display: block; }
-
-  /* IMAGES */
-  .hero-image-wrap {
-    position: relative; border-radius: 4px; overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.15);
-    border: 1px solid var(--rule);
-  }
-  .hero-image-wrap::before {
-    content: ''; position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(to top, rgba(13,13,13,0.25) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .hero-image-wrap img {
-    width: 100%; display: block; object-fit: cover;
-    max-height: 580px;
-  }
-  .about-image-wrap {
-    position: relative;
-    border: 1px solid var(--rule);
-    border-radius: 4px; overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  }
-  .about-image-wrap::before {
-    content: ''; position: absolute;
-    inset: -12px; z-index: -1;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-  }
-  .about-image-wrap img {
-    width: 100%; display: block; object-fit: cover;
-    aspect-ratio: 4/5;
-  }
-
   /* TOAST */
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 300; display: flex; flex-direction: column; gap: 0.8rem; }
   .toast { padding: 1rem 1.5rem; border-radius: 2px; font-size: 0.88rem; font-family: var(--font-body); color: white; display: flex; align-items: center; gap: 0.8rem; min-width: 280px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); transform: translateX(120%); transition: transform 0.3s ease; }
@@ -358,79 +300,51 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-label">Client Portal</div>
-      <div class="modal-title" id="authModalTitle">Welcome to Kenflow</div>
-      <div class="modal-subtitle">Sign in or create your account to continue</div>
+      <div class="modal-title">Create Your Account</div>
+      <div class="modal-subtitle">Join to track your consultations and bookings</div>
       <button class="modal-close" onclick="closeModal('authModal')">✕</button>
     </div>
     <div class="modal-body">
-
-      <!-- SOCIAL LOGIN — Primary, always visible -->
-      <div class="social-login-section">
-        <div class="oauth-btns">
-          <button class="oauth-btn oauth-btn--google" onclick="handleOAuth('google')">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-            Continue with Google
-          </button>
-        </div>
-
-        <div class="oauth-divider"><span>or continue with email</span></div>
-
-        <!-- Email toggle — collapsed by default -->
-        <button class="email-toggle" onclick="toggleEmailForm()" id="emailToggleBtn">
-          Use email &amp; password instead ↓
-        </button>
-
-        <!-- EMAIL FORM — hidden by default, expands on click -->
-        <div class="email-form-section" id="emailFormSection">
-          <div class="modal-tabs" style="margin-top:1rem">
-            <button class="modal-tab active" onclick="switchAuthTab('signup')">Create Account</button>
-            <button class="modal-tab" onclick="switchAuthTab('login')">Sign In</button>
-          </div>
-
-          <!-- SIGN UP -->
-          <div class="modal-panel active" id="panel-signup">
-            <div class="form-row">
-              <div class="form-group"><label>First Name *</label><input type="text" id="su-fname" placeholder="Jane"></div>
-              <div class="form-group"><label>Last Name *</label><input type="text" id="su-lname" placeholder="Doe"></div>
-            </div>
-            <div class="form-group"><label>Email Address *</label><input type="email" id="su-email" placeholder="jane@company.com"></div>
-            <div class="form-group"><label>Phone Number *</label><input type="tel" id="su-phone" placeholder="+254 700 000 000"></div>
-            <div class="form-group"><label>Company / Organisation</label><input type="text" id="su-company" placeholder="Your company name"></div>
-            <div class="form-group"><label>Your Role</label>
-              <select id="su-role">
-                <option value="">Select your role…</option>
-                <option>Founder / CEO</option><option>Managing Director</option><option>Executive</option>
-                <option>Consultant / Coach</option><option>Medical Professional</option>
-                <option>Real Estate Professional</option><option>SME Owner</option><option>Other Professional</option>
-              </select>
-            </div>
-            <div class="form-group"><label>Primary Interest</label>
-              <select id="su-interest">
-                <option value="">What are you most interested in?</option>
-                <option>Executive Virtual Assistant Support</option>
-                <option>AI Productivity Solutions</option>
-                <option>Voice Agent Solutions</option>
-                <option>All of the above</option>
-                <option>Not sure yet — exploring options</option>
-              </select>
-            </div>
-            <div class="form-group"><label>Password *</label><input type="password" id="su-password" placeholder="Minimum 8 characters"></div>
-            <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleSignUp()" id="signupBtn">Create Account & Continue →</button>
-            <p style="font-size:0.75rem;color:var(--ink-muted);text-align:center;margin-top:0.8rem">By creating an account you consent to us contacting you for follow-up. Your details are handled with complete confidentiality.</p>
-          </div>
-
-          <!-- SIGN IN -->
-          <div class="modal-panel" id="panel-login">
-            <div class="form-group"><label>Email Address</label><input type="email" id="li-email" placeholder="jane@company.com"></div>
-            <div class="form-group"><label>Password</label><input type="password" id="li-password" placeholder="Your password"></div>
-            <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleLogin()" id="loginBtn">Sign In →</button>
-            <div style="text-align:center;margin-top:1rem"><a href="#" style="font-size:0.82rem;color:var(--gold);text-decoration:none" onclick="handleForgotPassword()">Forgot password?</a></div>
-          </div>
-        </div>
-
-        <p style="font-size:0.72rem;color:var(--ink-muted);text-align:center;margin-top:1.2rem;line-height:1.6">By continuing you agree to be contacted regarding your enquiry.<br>Your details are handled with complete confidentiality.</p>
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchAuthTab('signup')">Create Account</button>
+        <button class="modal-tab" onclick="switchAuthTab('login')">Sign In</button>
       </div>
-
+      <div class="modal-panel active" id="panel-signup">
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="su-fname" placeholder="Jane"></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="su-lname" placeholder="Doe"></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="su-email" placeholder="jane@company.com"></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" id="su-phone" placeholder="+254 700 000 000"></div>
+        <div class="form-group"><label>Company / Organisation</label><input type="text" id="su-company" placeholder="Your company name"></div>
+        <div class="form-group"><label>Your Role</label>
+          <select id="su-role">
+            <option value="">Select your role…</option>
+            <option>Founder / CEO</option><option>Managing Director</option><option>Executive</option>
+            <option>Consultant / Coach</option><option>Medical Professional</option>
+            <option>Real Estate Professional</option><option>SME Owner</option><option>Other Professional</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Primary Interest</label>
+          <select id="su-interest">
+            <option value="">What are you most interested in?</option>
+            <option>Executive Virtual Assistant Support</option>
+            <option>AI Productivity Solutions</option>
+            <option>Voice Agent Solutions</option>
+            <option>All of the above</option>
+            <option>Not sure yet — exploring options</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Password *</label><input type="password" id="su-password" placeholder="Minimum 8 characters"></div>
+        <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleSignUp()" id="signupBtn">Create Account & Continue →</button>
+        <p style="font-size:0.75rem;color:var(--ink-muted);text-align:center;margin-top:0.8rem">By creating an account you consent to us contacting you for follow-up. Your details are handled with complete confidentiality.</p>
+      </div>
+      <div class="modal-panel" id="panel-login">
+        <div class="form-group"><label>Email Address</label><input type="email" id="li-email" placeholder="jane@company.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="li-password" placeholder="Your password"></div>
+        <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="handleLogin()" id="loginBtn">Sign In →</button>
+        <div style="text-align:center;margin-top:1rem"><a href="#" style="font-size:0.82rem;color:var(--gold);text-decoration:none" onclick="handleForgotPassword()">Forgot password?</a></div>
+      </div>
     </div>
   </div>
 </div>
@@ -538,11 +452,7 @@
           <div class="hero-proof-item"><span class="hero-proof-num">AI</span><span class="hero-proof-label">AI-forward approach</span></div>
         </div>
       </div>
-      <div style="display:flex; flex-direction:column; gap:1.5rem;">
-        <div class="hero-image-wrap fade-up" style="transition-delay:0.15s">
-          <img src="images/lilian-hero.png" alt="Lilian — Kenflow AI & Executive Support" loading="lazy">
-        </div>
-        <div class="booking-card fade-up" style="transition-delay:0.2s">
+      <div class="booking-card fade-up" style="transition-delay:0.2s">
         <div class="booking-card-label">Start Here — 60 Minutes</div>
         <h3>Discovery Consultation</h3>
         <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:300;color:var(--ink);margin-bottom:0.3rem">KSh 5,000</div>
@@ -561,7 +471,6 @@
           <ul class="my-bookings-list" id="heroBookingsList"><li style="font-size:0.82rem;color:var(--ink-muted);padding:0.5rem 0">Loading…</li></ul>
         </div>
       </div>
-      </div><!-- end right column wrapper -->
     </div>
   </div>
 </section>
@@ -585,9 +494,12 @@
           <div style="display:flex;gap:1rem;padding:1rem 0"><div style="width:32px;height:32px;flex-shrink:0;background:var(--gold-pale);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;">📈</div><div><div style="font-weight:600;font-size:0.9rem;color:var(--ink);margin-bottom:0.2rem">Results-driven</div><div style="font-size:0.85rem;color:var(--ink-muted)">Everything tied to real business outcomes.</div></div></div>
         </div>
       </div>
-      <div class="about-image-wrap fade-up">
-          <img src="images/lilian-about.png" alt="Lilian at work — Kenflow AI & Executive Support" loading="lazy">
-        </div>
+      <div style="background:var(--paper-warm);border:1px solid var(--rule);padding:3rem;position:relative">
+        <div style="position:absolute;inset:-12px;z-index:-1;border:1px solid var(--rule)"></div>
+        <div style="text-align:center;padding:1.5rem;background:var(--white);border:1px solid var(--rule);margin-bottom:1.5rem"><div style="font-family:var(--font-display);font-size:2.8rem;font-weight:300;color:var(--gold)">Premium</div><div style="font-size:0.8rem;color:var(--ink-muted)">Executive-grade support</div></div>
+        <div style="text-align:center;padding:1.5rem;background:var(--white);border:1px solid var(--rule);margin-bottom:1.5rem"><div style="font-family:var(--font-display);font-size:2.8rem;font-weight:300;color:var(--gold)">AI-Forward</div><div style="font-size:0.8rem;color:var(--ink-muted)">Modern tool stack</div></div>
+        <div style="text-align:center;padding:1.5rem;background:var(--white);border:1px solid var(--rule)"><div style="font-family:var(--font-display);font-size:2.8rem;font-weight:300;color:var(--gold)">Discreet</div><div style="font-size:0.8rem;color:var(--ink-muted)">Professional & confidential</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -829,7 +741,7 @@
         <h4 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:1rem;color:var(--ink)">Let's start with the right conversation.</h4>
         <p style="margin-bottom:2rem">Whether you're ready to book or simply exploring your options, we're here to help you figure out the best path forward.</p>
         <div class="contact-detail"><div class="contact-detail-icon">📍</div><div class="contact-detail-text"><strong>Location</strong>Nairobi, Kenya · East Africa & Internationally</div></div>
-        <div class="contact-detail"><div class="contact-detail-icon">📧</div><div class="contact-detail-text"><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="274f424b4b48674c4249414b485009464e">[email&#160;protected]</a></div></div>
+        <div class="contact-detail"><div class="contact-detail-icon">📧</div><div class="contact-detail-text"><strong>Email</strong>hello@kenflow.ai</div></div>
         <div class="contact-detail"><div class="contact-detail-icon">⏱️</div><div class="contact-detail-text"><strong>Response Time</strong>Within 24 business hours</div></div>
         <div style="margin-top:2.5rem;padding:1.5rem;border:1px solid var(--rule);background:var(--paper-warm)">
           <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Client Portal</div>
@@ -866,7 +778,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_KEY);
   let currentUser = null, currentProfile = null;
@@ -884,6 +796,11 @@
   function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
   document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); }));
+  function switchAuthTab(tab) {
+    document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', ['signup','login'][i]===tab));
+    document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-'+tab).classList.add('active');
+  }
   function openBookingWithService(svc) { document.getElementById('bk-service').value = svc; updateBookingModal(); openModal('bookingModal'); }
   function updateBookingModal() {
     if (currentUser && currentProfile) {
@@ -966,32 +883,6 @@
 
   async function handleLogout() { await db.auth.signOut(); toast('You have been signed out.','info'); }
 
-  function toggleEmailForm() {
-    const section = document.getElementById('emailFormSection');
-    const btn = document.getElementById('emailToggleBtn');
-    const isOpen = section.classList.contains('open');
-    section.classList.toggle('open', !isOpen);
-    btn.textContent = isOpen ? 'Use email & password instead ↓' : 'Hide email form ↑';
-  }
-
-  function switchAuthTab(tab) {
-    document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', ['signup','login'][i]===tab));
-    document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-'+tab).classList.add('active');
-  }
-
-  async function handleOAuth(provider) {
-    toast(`Opening ${provider.charAt(0).toUpperCase()+provider.slice(1)}…`, 'info', 3000);
-    const { error } = await db.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: 'https://lilykay.github.io/kenflow-ai-website/',
-        queryParams: provider === 'google' ? { access_type: 'offline', prompt: 'consent' } : {}
-      }
-    });
-    if (error) { toast(error.message, 'error'); }
-  }
-
   async function handleForgotPassword() {
     const email=document.getElementById('li-email').value.trim();
     if (!email) { toast('Enter your email address first.','error'); return; }
@@ -1057,4 +948,10 @@
   track.innerHTML=[...trustItems,...trustItems].map(i=>`<span class="trust-item"><span class="trust-dot"></span>${i}</span>`).join('');
 
   const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-  document.querySelectorAll('.fade
+  document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+  window.addEventListener('scroll',()=>{document.querySelector('nav').style.boxShadow=window.scrollY>50?'0 4px 30px rgba(0,0,0,0.08)':'none';});
+
+  initAuth();
+</script>
+</body>
+</html>
